@@ -8,15 +8,16 @@ using PersonaKey.EntityLayer.Concrete;
 
 namespace PersonaKey.BusinessLayer.Validators
 {
-    public class DepartmentValidator : AbstractValidator<Department>
+    public class RoleValidator : AbstractValidator<Role>
     {
-        public DepartmentValidator()
+        public RoleValidator()
         {
-            RuleFor(d => d.Name)
-        .NotEmpty().WithMessage("Departman adı boş olamaz.")
-        .MinimumLength(2).WithMessage("Departman adı en az 2 karakter olmalı.")
-        .MaximumLength(30).WithMessage("Departman adı en fazla 50 karakter olabilir.")
+            RuleFor(r => r.Name)
+        .NotEmpty().WithMessage("Role adı boş olamaz.")
+        .MinimumLength(2).WithMessage("Role adı en az 2 karakter olmalı.")
+        .MaximumLength(50).WithMessage("Role adı en fazla 50 karakter olabilir.")
         .Matches(@"^[a-zA-ZğüşöçıİĞÜŞÖÇ\s]+$").WithMessage("Sadece harf ve boşluk karakterlerine izin verilir.");
+
         }
     }
 }
