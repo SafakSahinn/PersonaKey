@@ -1,7 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using PersonaKey.DataAccessLayer.Context;
+using PersonaKey.DataAccessLayer.Repository.Abstract;
+using PersonaKey.DataAccessLayer.Repository.Concrete;
+using PersonaKey.DataAccessLayer.UnitOfWorks.Abstract;
+using PersonaKey.DataAccessLayer.UnitOfWorks.Concrete;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<PersonaKeyContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PersonaKeyConnection")));
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
