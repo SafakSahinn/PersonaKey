@@ -21,6 +21,12 @@ namespace PersonaKey.WebUI.Controllers
         public async Task<IActionResult> Index()
         {
             var permissions = await _permissionService.GetAllAsync();
+            var roles = await _roleService.GetAllAsync();
+            var doors = await _doorService.GetAllAsync();
+
+            ViewBag.Roles = roles;
+            ViewBag.Doors = doors;
+
             return View(permissions);
         }
 

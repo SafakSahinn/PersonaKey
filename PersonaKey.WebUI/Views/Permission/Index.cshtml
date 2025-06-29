@@ -2,29 +2,33 @@
 
 @{
     ViewData["Title"] = "İzinler Listesi";
+    var roles = ViewBag.Roles as List<PersonaKey.EntityLayer.Concrete.Role>;
+    var doors = ViewBag.Doors as List<PersonaKey.EntityLayer.Concrete.Door>;
 }
 
 <h2>@ViewData["Title"]</h2>
 
-<div class="mb-3">
+<p>
     <a asp-action="Create" class="btn btn-primary">Yeni İzin Ekle</a>
-</div>
+</p>
 
 <table class="table table-bordered">
     <thead>
         <tr>
             <th>Id</th>
-            <th>Rol</th>
-            <th>Kapı</th>
+            <th>Role</th>
+            <th>Door</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var permission in Model)
         {
+            var roleName = roles?.FirstOrDefault(r => r.Id == permission.RoleId)?.Name ?? "Bilinmiyor";
+            var doorName = doors?.FirstOrDefault(d => d.Id == permission.DoorId)?.Name ?? "Bilinmiyor";
             <tr>
                 <td>@permission.Id</td>
-                <td>@permission.Role?.Name</td>
-                <td>@permission.Door?.Name</td>
+                <td>@roleName</td>
+                <td>@doorName</td>
             </tr>
         }
     </tbody>
