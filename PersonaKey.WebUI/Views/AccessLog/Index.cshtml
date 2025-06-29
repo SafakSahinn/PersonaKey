@@ -1,0 +1,39 @@
+﻿@model IEnumerable<PersonaKey.EntityLayer.Concrete.AccessLog>
+
+@{
+    ViewData["Title"] = "Giriş Kayıtları";
+    var cards = ViewBag.Cards as List<PersonaKey.EntityLayer.Concrete.Card>;
+    var doors = ViewBag.Doors as List<PersonaKey.EntityLayer.Concrete.Door>;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Yeni Giriş Kaydı</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Kart</th>
+            <th>Kapı</th>
+            <th>Giriş Saati</th>
+            <th>Çıkış Saati</th>
+            <th>Durum</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var log in Model)
+        {
+            var cardNumber = cards?.FirstOrDefault(c => c.Id == log.CardId)?.CardNumber ?? "Bilinmiyor";
+            var doorName = doors?.FirstOrDefault(d => d.Id == log.DoorId)?.Name ?? "Bilinmiyor";
+            <tr>
+                <td>@cardNumber</td>
+                <td>@doorName</td>
+                <td>@(log.AccessTime?.ToString("g") ?? "-")</td>
+                <td>@(log.ExitTime?.ToString("g") ?? "-")</td>
+                <td>@(log.IsSuccess ? "Başarılı" : "Başarısız")</td>
+            </tr>
+        }
+    </tbody>
+</table>

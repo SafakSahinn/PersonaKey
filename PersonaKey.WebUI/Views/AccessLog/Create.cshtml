@@ -1,0 +1,46 @@
+﻿@model PersonaKey.EntityLayer.Concrete.AccessLog
+
+@{
+    ViewData["Title"] = "Yeni Giriş Kaydı";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="CardId">Kart</label>
+        <select asp-for="CardId" class="form-control" asp-items="ViewBag.Cards"></select>
+        <span asp-validation-for="CardId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DoorId">Kapı</label>
+        <select asp-for="DoorId" class="form-control" asp-items="ViewBag.Doors"></select>
+        <span asp-validation-for="DoorId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AccessTime">Giriş Saati</label>
+        <input asp-for="AccessTime" type="datetime-local" class="form-control" />
+        <span asp-validation-for="AccessTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ExitTime">Çıkış Saati</label>
+        <input asp-for="ExitTime" type="datetime-local" class="form-control" />
+        <span asp-validation-for="ExitTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group form-check">
+        <input asp-for="IsSuccess" class="form-check-input" />
+        <label asp-for="IsSuccess" class="form-check-label">Giriş Başarılı mı?</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
