@@ -1,0 +1,46 @@
+﻿@model IEnumerable<PersonaKey.EntityLayer.Concrete.Person>
+
+@{
+    ViewData["Title"] = "Personel Listesi";
+}
+
+<h2>Personel Listesi</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ad Soyad</th>
+            <th>Email</th>
+            <th>Departman</th>
+            <th>Rol</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="5">Henüz personel kaydı yok.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var person in Model)
+            {
+                <tr>
+                    <td>@person.FullName</td>
+                    <td>@person.Email</td>
+                    <td>@person.Department?.Name</td>
+                    <td>@person.Role?.Name</td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-primary">Düzenle</a>
+                        <a href="#" class="btn btn-sm btn-danger">Sil</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+
+    <a href="@Url.Action("Create", "Person")" class="btn btn-primary">Yeni Personel Ekle</a>
+
+</table>

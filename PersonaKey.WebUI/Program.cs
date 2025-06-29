@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using PersonaKey.BusinessLayer.Abstract;
+using PersonaKey.BusinessLayer.Concrete;
 using PersonaKey.DataAccessLayer.Context;
 using PersonaKey.DataAccessLayer.Repository.Abstract;
 using PersonaKey.DataAccessLayer.Repository.Concrete;
@@ -15,6 +17,11 @@ builder.Services.AddDbContext<PersonaKeyContext>(options =>
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<IPersonService, PersonManager>();
+builder.Services.AddScoped<IDepartmentService, DepartmentManager>();
+builder.Services.AddScoped<IRoleService, RoleManager>();
+
 
 var app = builder.Build();
 
