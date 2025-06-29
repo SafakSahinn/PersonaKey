@@ -25,6 +25,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPersonService, PersonManager>();
 builder.Services.AddScoped<IDepartmentService, DepartmentManager>();
 builder.Services.AddScoped<IRoleService, RoleManager>();
+builder.Services.AddScoped<IPermissionService, PermissionManager>();
+builder.Services.AddScoped<IDoorService, DoorManager>();
 
 // FluentValidation settings
 builder.Services.AddValidatorsFromAssemblyContaining<DepartmentValidator>();
