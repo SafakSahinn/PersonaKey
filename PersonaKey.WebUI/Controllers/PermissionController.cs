@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PersonaKey.BusinessLayer.Abstract;
 using PersonaKey.EntityLayer.Concrete;
 
@@ -26,8 +27,12 @@ namespace PersonaKey.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            ViewBag.Roles = await _roleService.GetAllAsync();
-            ViewBag.Doors = await _doorService.GetAllAsync();
+            var roles = await _roleService.GetAllAsync();
+            var doors = await _doorService.GetAllAsync();
+
+            ViewBag.Roles = new SelectList(roles, "Id", "Name");
+            ViewBag.Doors = new SelectList(doors, "Id", "Name");
+
             return View();
         }
 
@@ -41,9 +46,13 @@ namespace PersonaKey.WebUI.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // If validation fails, resend dropdown data
-            ViewBag.Roles = await _roleService.GetAllAsync();
-            ViewBag.Doors = await _doorService.GetAllAsync();
+            // If validation fails, refill comboboxes
+            var roles = await _roleService.GetAllAsync();
+            var doors = await _doorService.GetAllAsync();
+
+            ViewBag.Roles = new SelectList(roles, "Id", "Name");
+            ViewBag.Doors = new SelectList(doors, "Id", "Name");
+
             return View(permission);
         }
     }
