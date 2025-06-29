@@ -1,0 +1,27 @@
+﻿@model IEnumerable<PersonaKey.EntityLayer.Concrete.Door>
+
+@{
+    ViewData["Title"] = "Kapılar";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Yeni Kapı Ekle</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>MAC Adresi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.MacAddress</td>
+            </tr>
+        }
+    </tbody>
+</table>

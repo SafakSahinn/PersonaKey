@@ -41,7 +41,7 @@ namespace PersonaKey.WebUI.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Eğer validasyon başarısızsa dropdown verilerini tekrar gönder
+            // If validation fails, resend dropdown data
             ViewBag.Roles = await _roleService.GetAllAsync();
             ViewBag.Doors = await _doorService.GetAllAsync();
             return View(permission);
