@@ -1,0 +1,36 @@
+﻿@model IEnumerable<PersonaKey.EntityLayer.Concrete.Card>
+
+@{
+    ViewData["Title"] = "Kart Listesi";
+    var persons = ViewBag.Persons as List<PersonaKey.EntityLayer.Concrete.Person>;
+}
+
+<h2>Kart Listesi</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Yeni Kart Ekle</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Kart Numarası</th>
+            <th>Kişi</th>
+            <th>Durum</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var card in Model)
+        {
+            var personName = persons?.FirstOrDefault(p => p.Id == card.PersonId)?.FullName ?? "Bilinmiyor";
+
+            <tr>
+                <td>@card.Id</td>
+                <td>@card.CardNumber</td>
+                <td>@personName</td>
+                <td>@(card.IsActive ? "Aktif" : "Pasif")</td>
+            </tr>
+        }
+    </tbody>
+</table>
