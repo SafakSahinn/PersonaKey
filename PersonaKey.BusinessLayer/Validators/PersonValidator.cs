@@ -21,8 +21,7 @@ namespace PersonaKey.BusinessLayer.Validators
             RuleFor(p => p.Email)
                 .NotEmpty().WithMessage("Email boş olamaz")
                 .EmailAddress().WithMessage("Geçerli bir email giriniz")
-                .MaximumLength(100).WithMessage("Email en fazla 100 karakter olabilir")
-                .Matches(@"^[a-zA-ZğüşöçıİĞÜŞÖÇ\s]+$").WithMessage("Sadece harf ve boşluk karakterlerine izin verilir.");
+                .MaximumLength(100).WithMessage("Email en fazla 100 karakter olabilir");
 
             RuleFor(x => x.DepartmentId)
         .GreaterThan(0);  // We don't give messages, just rules

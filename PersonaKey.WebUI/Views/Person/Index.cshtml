@@ -2,9 +2,15 @@
 
 @{
     ViewData["Title"] = "Personel Listesi";
+    var departments = ViewBag.Departments as List<PersonaKey.EntityLayer.Concrete.Department>;
+    var roles = ViewBag.Roles as List<PersonaKey.EntityLayer.Concrete.Role>;
 }
 
 <h2>Personel Listesi</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Yeni Personel Ekle</a>
+</p>
 
 <table class="table table-striped">
     <thead>
@@ -17,30 +23,21 @@
         </tr>
     </thead>
     <tbody>
-        @if (!Model.Any())
+        @foreach (var person in Model)
         {
+            var departmentName = departments?.FirstOrDefault(d => d.Id == person.DepartmentId)?.Name ?? "Bilinmiyor";
+            var roleName = roles?.FirstOrDefault(r => r.Id == person.RoleId)?.Name ?? "Bilinmiyor";
+
             <tr>
-                <td colspan="5">Henüz personel kaydı yok.</td>
+                <td>@person.FullName</td>
+                <td>@person.Email</td>
+                <td>@departmentName</td>
+                <td>@roleName</td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@person.Id" class="btn btn-sm btn-primary">Düzenle</a>
+                    <a href="#" class="btn btn-sm btn-danger">Sil</a>
+                </td>
             </tr>
         }
-        else
-        {
-            foreach (var person in Model)
-            {
-                <tr>
-                    <td>@person.FullName</td>
-                    <td>@person.Email</td>
-                    <td>@person.Department?.Name</td>
-                    <td>@person.Role?.Name</td>
-                    <td>
-                        <a href="#" class="btn btn-sm btn-primary">Düzenle</a>
-                        <a href="#" class="btn btn-sm btn-danger">Sil</a>
-                    </td>
-                </tr>
-            }
-        }
     </tbody>
-
-    <a href="@Url.Action("Create", "Person")" class="btn btn-primary">Yeni Personel Ekle</a>
-
 </table>

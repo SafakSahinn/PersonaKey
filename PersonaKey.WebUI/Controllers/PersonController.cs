@@ -20,6 +20,12 @@ namespace PersonaKey.WebUI.Controllers
         public async Task<IActionResult> Index()
         {
             var persons = await _personService.GetAllAsync();
+            var departments = await _departmentService.GetAllAsync();
+            var roles = await _roleService.GetAllAsync();
+
+            ViewBag.Departments = departments;
+            ViewBag.Roles = roles;
+
             return View(persons);
         }
 
@@ -42,6 +48,35 @@ namespace PersonaKey.WebUI.Controllers
             }
 
             // If validation fails, we resend the dropdown data.
+            ViewBag.Departments = await _departmentService.GetAllAsync();
+            ViewBag.Roles = await _roleService.GetAllAsync();
+            return View(person);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var person = await _personService.GetByIdAsync(id);
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Departments = await _departmentService.GetAllAsync();
+            ViewBag.Roles = await _roleService.GetAllAsync();
+            return View(person);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(Person person)
+        {
+            if (ModelState.IsValid)
+            {
+                await _personService.UpdateAsync(person);
+                return RedirectToAction(nameof(Index));
+            }
+
             ViewBag.Departments = await _departmentService.GetAllAsync();
             ViewBag.Roles = await _roleService.GetAllAsync();
             return View(person);
