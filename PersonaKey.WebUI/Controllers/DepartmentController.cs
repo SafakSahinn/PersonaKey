@@ -36,5 +36,27 @@ namespace PersonaKey.WebUI.Controllers
             }
             return View(department);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var department = await _departmentService.GetByIdAsync(id);
+            if (department == null)
+                return NotFound();
+
+            return View(department);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(Department department)
+        {
+            if (ModelState.IsValid)
+            {
+                await _departmentService.UpdateAsync(department);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(department);
+        }
     }
 }
