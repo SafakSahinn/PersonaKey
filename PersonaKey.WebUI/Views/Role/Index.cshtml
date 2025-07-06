@@ -15,6 +15,7 @@
         <tr>
             <th>#</th>
             <th>Rol Adı</th>
+            <th>İşlemler</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,11 @@
             <tr>
                 <td>@role.Id</td>
                 <td>@role.Name</td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@role.Id" class="btn btn-sm btn-warning">Düzenle</a>
+                    @* İsteğe bağlı silme butonu: *@
+                    @* <a asp-action="Delete" asp-route-id="@role.Id" class="btn btn-sm btn-danger">Sil</a> *@
+                </td>
             </tr>
         }
     </tbody>
