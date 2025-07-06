@@ -60,5 +60,33 @@ namespace PersonaKey.WebUI.Controllers
 
             return View(log);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var log = await _accessLogService.GetByIdAsync(id);
+            if (log == null) return NotFound();
+
+            ViewBag.Cards = new SelectList(await _cardService.GetAllAsync(), "Id", "CardNumber", log.CardId);
+            ViewBag.Doors = new SelectList(await _doorService.GetAllAsync(), "Id", "Name", log.DoorId);
+            return View(log);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(AccessLog log)
+        {
+            if (ModelState.IsValid)
+            {
+                // log.IsManuallyEdited = true; // Eğer bu alanı eklersen
+                await _accessLogService.UpdateAsync(log);
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.Cards = new SelectList(await _cardService.GetAllAsync(), "Id", "CardNumber", log.CardId);
+            ViewBag.Doors = new SelectList(await _doorService.GetAllAsync(), "Id", "Name", log.DoorId);
+            return View(log);
+        }
+
     }
 }
