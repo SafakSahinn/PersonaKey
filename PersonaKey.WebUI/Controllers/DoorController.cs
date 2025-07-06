@@ -40,5 +40,29 @@ namespace PersonaKey.WebUI.Controllers
 
             return View(door);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var door = await _doorService.GetByIdAsync(id);
+            if (door == null)
+            {
+                return NotFound();
+            }
+            return View(door);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(Door door)
+        {
+            if (ModelState.IsValid)
+            {
+                await _doorService.UpdateAsync(door);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(door);
+        }
+
     }
 }
