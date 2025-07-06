@@ -61,5 +61,41 @@ namespace PersonaKey.WebUI.Controllers
 
             return View(permission);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var permission = await _permissionService.GetByIdAsync(id);
+            if (permission == null)
+                return NotFound();
+
+            var roles = await _roleService.GetAllAsync();
+            var doors = await _doorService.GetAllAsync();
+
+            ViewBag.Roles = new SelectList(roles, "Id", "Name", permission.RoleId);
+            ViewBag.Doors = new SelectList(doors, "Id", "Name", permission.DoorId);
+
+            return View(permission);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(Permission permission)
+        {
+            if (ModelState.IsValid)
+            {
+                await _permissionService.UpdateAsync(permission);
+                return RedirectToAction(nameof(Index));
+            }
+
+            var roles = await _roleService.GetAllAsync();
+            var doors = await _doorService.GetAllAsync();
+
+            ViewBag.Roles = new SelectList(roles, "Id", "Name", permission.RoleId);
+            ViewBag.Doors = new SelectList(doors, "Id", "Name", permission.DoorId);
+
+            return View(permission);
+        }
+
     }
 }

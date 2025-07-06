@@ -16,8 +16,9 @@
     <thead>
         <tr>
             <th>Id</th>
-            <th>Role</th>
-            <th>Door</th>
+            <th>Rol</th>
+            <th>Kapı</th>
+            <th>İşlemler</th>
         </tr>
     </thead>
     <tbody>
@@ -29,6 +30,9 @@
                 <td>@permission.Id</td>
                 <td>@roleName</td>
                 <td>@doorName</td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@permission.Id" class="btn btn-sm btn-primary">Düzenle</a>
+                </td>
             </tr>
         }
     </tbody>
