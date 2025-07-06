@@ -48,5 +48,37 @@ namespace PersonaKey.WebUI.Controllers
             ViewBag.Persons = new SelectList(persons, "Id", "FullName", card.PersonId);
             return View(card);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var card = await _cardService.GetByIdAsync(id);
+            if (card == null)
+            {
+                return NotFound();
+            }
+
+            var persons = await _personService.GetAllAsync();
+            ViewBag.Persons = new SelectList(persons, "Id", "FullName", card.PersonId);
+
+            return View(card);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(Card card)
+        {
+            if (ModelState.IsValid)
+            {
+                await _cardService.UpdateAsync(card);
+                return RedirectToAction(nameof(Index));
+            }
+
+            var persons = await _personService.GetAllAsync();
+            ViewBag.Persons = new SelectList(persons, "Id", "FullName", card.PersonId);
+
+            return View(card);
+        }
+
     }
 }

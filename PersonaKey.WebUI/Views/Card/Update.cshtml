@@ -1,0 +1,40 @@
+﻿@model PersonaKey.EntityLayer.Concrete.Card
+
+@{
+    ViewData["Title"] = "Kart Güncelle";
+    var persons = ViewBag.Persons as IEnumerable<SelectListItem>;
+}
+
+<h2>Kart Güncelle</h2>
+
+<form asp-action="Update" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="CardNumber"></label>
+        <input asp-for="CardNumber" class="form-control" />
+        <span asp-validation-for="CardNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PersonId">Kişi</label>
+        <select asp-for="PersonId" class="form-control" asp-items="ViewBag.Persons">
+            <option value="">Kişi Seçiniz</option>
+        </select>
+        <span asp-validation-for="PersonId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group form-check">
+        <input asp-for="IsActive" class="form-check-input" />
+        <label asp-for="IsActive" class="form-check-label">Aktif mi?</label>
+    </div>
+
+    <button type="submit" class="btn btn-success">Kaydet</button>
+    <a asp-action="Index" class="btn btn-secondary">İptal</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
