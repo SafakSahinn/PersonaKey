@@ -8,6 +8,7 @@ using PersonaKey.BusinessLayer.Abstract;
 using PersonaKey.BusinessLayer.Concrete;
 using PersonaKey.BusinessLayer.Validators;
 using PersonaKey.CoreLayer.Configuration;
+using PersonaKey.CoreLayer.Services;
 using PersonaKey.DataAccessLayer.Context;
 using PersonaKey.DataAccessLayer.Repository.Abstract;
 using PersonaKey.DataAccessLayer.Repository.Concrete;
@@ -70,6 +71,9 @@ builder.Services.AddScoped<IPermissionService, PermissionManager>();
 builder.Services.AddScoped<IDoorService, DoorManager>();
 builder.Services.AddScoped<ICardService, CardManager>();
 builder.Services.AddScoped<IAccessLogService, AccessLogManager>();
+
+// Token Service
+builder.Services.AddScoped<TokenService>();
 
 // --------------------------------------------------
 // FluentValidation
