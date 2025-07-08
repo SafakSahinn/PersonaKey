@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PersonaKey.BusinessLayer\PersonaKey.BusinessLayer.csproj" />
+    <ProjectReference Include="..\PersonaKey.CoreLayer\PersonaKey.CoreLayer.csproj" />
     <ProjectReference Include="..\PersonaKey.DataAccessLayer\PersonaKey.DataAccessLayer.csproj" />
     <ProjectReference Include="..\PersonaKey.EntityLayer\PersonaKey.EntityLayer.csproj" />
   </ItemGroup>
