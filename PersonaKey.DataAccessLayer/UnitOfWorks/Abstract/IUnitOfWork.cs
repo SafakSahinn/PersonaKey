@@ -17,6 +17,7 @@ namespace PersonaKey.DataAccessLayer.UnitOfWorks.Abstract
         IGenericRepository<Permission> Permissions { get; }
         IGenericRepository<Person> Persons { get; }
         IGenericRepository<Role> Roles { get; }
+        IGenericRepository<AppUser> AppUsers { get; }
 
         Task<int> SaveAsync();
     }

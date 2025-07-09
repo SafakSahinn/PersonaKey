@@ -22,5 +22,6 @@ namespace PersonaKey.DataAccessLayer.Context
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
     }
 }

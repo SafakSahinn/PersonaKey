@@ -44,6 +44,8 @@ namespace PersonaKey.DataAccessLayer.UnitOfWorks.Concrete
         private IGenericRepository<Role> _roles;
         public IGenericRepository<Role> Roles => _roles ??= new GenericRepository<Role>(_context);
 
+        private IGenericRepository<AppUser> _appUsers;
+        public IGenericRepository<AppUser> AppUsers => _appUsers ??= new GenericRepository<AppUser>(_context);
 
         public async Task<int> SaveAsync()
         {

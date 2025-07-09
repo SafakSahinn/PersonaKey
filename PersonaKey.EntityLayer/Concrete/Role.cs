@@ -12,6 +12,7 @@ namespace PersonaKey.EntityLayer.Concrete
         {
             People = new HashSet<Person>(); // One role can belong to many people
             Permissions = new HashSet<Permission>();
+            AppUsers = new HashSet<AppUser>();
         }
 
         public int Id { get; set; } // Primary Key
@@ -20,5 +21,6 @@ namespace PersonaKey.EntityLayer.Concrete
         // Navigation Property
         public virtual ICollection<Person> People { get; set; }
         public virtual ICollection<Permission> Permissions { get; set; }
+        public virtual ICollection<AppUser> AppUsers { get; set; }
     }
 }
