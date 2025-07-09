@@ -24,7 +24,7 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
 
 // --------------------------------------------------
-// Authentication & Authorization (JWT)
+// Authentication & Authorization (JWT based)
 // --------------------------------------------------
 builder.Services.AddAuthentication(options =>
 {
@@ -48,18 +48,18 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 // --------------------------------------------------
-// MVC & Controllers
+// MVC & Controller support
 // --------------------------------------------------
 builder.Services.AddControllersWithViews();
 
 // --------------------------------------------------
-// DbContext (SQL Server Connection)
+// Database: EF Core with SQL Server
 // --------------------------------------------------
 builder.Services.AddDbContext<PersonaKeyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PersonaKeyConnection")));
 
 // --------------------------------------------------
-// Dependency Injection
+// Dependency Injection: Service & Repository registration
 // --------------------------------------------------
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -71,14 +71,15 @@ builder.Services.AddScoped<IPermissionService, PermissionManager>();
 builder.Services.AddScoped<IDoorService, DoorManager>();
 builder.Services.AddScoped<ICardService, CardManager>();
 builder.Services.AddScoped<IAccessLogService, AccessLogManager>();
+builder.Services.AddScoped<IAppUserService, AppUserManager>();
 
-// Token Service
+// Custom Token service
 builder.Services.AddScoped<TokenService>();
 
 // --------------------------------------------------
-// FluentValidation
+// FluentValidation Configuration
 // --------------------------------------------------
-builder.Services.AddValidatorsFromAssemblyContaining<DepartmentValidator>();
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly); // Registers all validators
 builder.Services.AddFluentValidationAutoValidation(options =>
 {
     options.DisableDataAnnotationsValidation = true;
@@ -88,7 +89,7 @@ builder.Services.AddFluentValidationClientsideAdapters();
 var app = builder.Build();
 
 // --------------------------------------------------
-// Middleware pipeline
+// Middleware Pipeline
 // --------------------------------------------------
 if (!app.Environment.IsDevelopment())
 {
@@ -101,8 +102,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); // JWT ile doðrulama
-app.UseAuthorization();  // Yetkilendirme
+app.UseAuthentication(); // Enables JWT authentication
+app.UseAuthorization();  // Enables authorization checks
 
 app.MapControllerRoute(
     name: "default",
