@@ -14,6 +14,7 @@ using PersonaKey.DataAccessLayer.Repository.Abstract;
 using PersonaKey.DataAccessLayer.Repository.Concrete;
 using PersonaKey.DataAccessLayer.UnitOfWorks.Abstract;
 using PersonaKey.DataAccessLayer.UnitOfWorks.Concrete;
+using PersonaKey.WebUI.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,6 +73,8 @@ builder.Services.AddScoped<IDoorService, DoorManager>();
 builder.Services.AddScoped<ICardService, CardManager>();
 builder.Services.AddScoped<IAccessLogService, AccessLogManager>();
 builder.Services.AddScoped<IAppUserService, AppUserManager>();
+
+builder.Services.AddValidatorsFromAssemblyContaining<LoginViewModelValidator>(); // WebUI validator
 
 // Custom Token service
 builder.Services.AddScoped<TokenService>();
