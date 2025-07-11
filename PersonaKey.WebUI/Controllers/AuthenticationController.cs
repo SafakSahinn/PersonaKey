@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using PersonaKey.BusinessLayer.Abstract;
 using PersonaKey.CoreLayer.Services;
 using PersonaKey.WebUI.Models;
@@ -32,19 +33,26 @@ namespace PersonaKey.WebUI.Controllers
                 return View(model);
             }
 
+            // Generate token including role and claims (e.g. permissions)
             var token = _tokenService.GenerateToken(user.UserName, user.Role?.Name);
 
+            // Set JWT token in secure HttpOnly cookie
             Response.Cookies.Append("jwt", token, new CookieOptions
             {
-                HttpOnly = true,
-                Secure = true,
+                HttpOnly = true,           // Prevent JavaScript access
+                Secure = true,             // Send only over HTTPS
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddDays(1)
             });
 
-            // Kullanıcı login olduktan sonra admin dashboard’a yönlendirme
+            // Redirect to Admin Dashboard after successful login
             return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
         }
 
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
     }
 }
