@@ -22,7 +22,10 @@ namespace PersonaKey.CoreLayer.Services
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, userName),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Role, role),
+                // Add custom claims for authorization policies
+                new Claim("CanLogin", "True"),
+                // Add CanEditSite claim dynamically if needed later
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
