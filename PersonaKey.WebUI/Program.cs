@@ -46,7 +46,17 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddAuthorization();
+// --------------------------------------------------
+// Authorization Policies - for role based claims
+// --------------------------------------------------
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("CanLoginPolicy", policy =>
+        policy.RequireClaim("CanLogin", "True"));
+
+    options.AddPolicy("CanEditSitePolicy", policy =>
+        policy.RequireClaim("CanEditSite", "True"));
+});
 
 // --------------------------------------------------
 // MVC & Razor Pages support
