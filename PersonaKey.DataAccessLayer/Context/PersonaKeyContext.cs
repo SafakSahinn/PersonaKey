@@ -23,5 +23,18 @@ namespace PersonaKey.DataAccessLayer.Context
         public DbSet<Person> Persons { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<RoleAccess> RoleAccesses { get; set; } 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Role ↔ RoleAccess (One-to-One ilişki)
+            modelBuilder.Entity<Role>()
+                .HasOne(r => r.RoleAccess)
+                .WithOne(ra => ra.Role)
+                .HasForeignKey<RoleAccess>(ra => ra.RoleId)
+                .OnDelete(DeleteBehavior.Cascade); // Gerekirse değiştirilebilir
+        }
     }
 }

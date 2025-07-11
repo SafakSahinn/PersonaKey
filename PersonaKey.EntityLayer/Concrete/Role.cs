@@ -22,5 +22,6 @@ namespace PersonaKey.EntityLayer.Concrete
         public virtual ICollection<Person> People { get; set; }
         public virtual ICollection<Permission> Permissions { get; set; }
         public virtual ICollection<AppUser> AppUsers { get; set; }
+        public virtual RoleAccess RoleAccess { get; set; }
     }
 }

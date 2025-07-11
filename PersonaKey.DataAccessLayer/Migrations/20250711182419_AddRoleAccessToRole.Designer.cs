@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PersonaKey.DataAccessLayer.Context;
 
@@ -11,9 +12,11 @@ using PersonaKey.DataAccessLayer.Context;
 namespace PersonaKey.DataAccessLayer.Migrations
 {
     [DbContext(typeof(PersonaKeyContext))]
-    partial class PersonaKeyContextModelSnapshot : ModelSnapshot
+    [Migration("20250711182419_AddRoleAccessToRole")]
+    partial class AddRoleAccessToRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

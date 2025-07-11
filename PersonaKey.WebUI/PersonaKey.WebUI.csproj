@@ -22,4 +22,8 @@
     <ProjectReference Include="..\PersonaKey.EntityLayer\PersonaKey.EntityLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Authentication\" />
+  </ItemGroup>
+
 </Project>
