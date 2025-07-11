@@ -15,5 +15,7 @@ namespace PersonaKey.BusinessLayer.Abstract
         Task UpdateAsync(AppUser user);
         Task DeleteAsync(int id);
         Task<AppUser> GetByUsernameAsync(string username);
+
+        Task<AppUser?> GetByUsernameWithRoleAccessAsync(string username);
     }
 }

@@ -55,5 +55,10 @@ namespace PersonaKey.BusinessLayer.Concrete
             await _unitOfWork.AppUsers.UpdateAsync(user);
             await _unitOfWork.SaveAsync();
         }
+
+        public async Task<AppUser?> GetByUsernameWithRoleAccessAsync(string username)
+        {
+            return await _unitOfWork.AppUsers.GetByUsernameWithRoleAccessAsync(username);
+        }
     }
 }

@@ -4,9 +4,6 @@ using PersonaKey.DataAccessLayer.Repository.Concrete;
 using PersonaKey.DataAccessLayer.UnitOfWorks.Abstract;
 using PersonaKey.EntityLayer.Concrete;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PersonaKey.DataAccessLayer.UnitOfWorks.Concrete
@@ -16,13 +13,11 @@ namespace PersonaKey.DataAccessLayer.UnitOfWorks.Concrete
         private readonly PersonaKeyContext _context;
         private bool _disposed = false;
 
-        // Constructor
         public UnitOfWork(PersonaKeyContext context)
         {
             _context = context;
         }
 
-        // Lazy loading: Repository instance is created only when first accessed
         private IGenericRepository<AccessLog> _accessLogs;
         public IGenericRepository<AccessLog> AccessLogs => _accessLogs ??= new GenericRepository<AccessLog>(_context);
 
@@ -44,8 +39,9 @@ namespace PersonaKey.DataAccessLayer.UnitOfWorks.Concrete
         private IGenericRepository<Role> _roles;
         public IGenericRepository<Role> Roles => _roles ??= new GenericRepository<Role>(_context);
 
-        private IGenericRepository<AppUser> _appUsers;
-        public IGenericRepository<AppUser> AppUsers => _appUsers ??= new GenericRepository<AppUser>(_context);
+        // ÖZEL: AppUser için özel repository kullanımı
+        private IAppUserRepository _appUsers;
+        public IAppUserRepository AppUsers => _appUsers ??= new AppUserRepository(_context);
 
         public async Task<int> SaveAsync()
         {
@@ -58,11 +54,8 @@ namespace PersonaKey.DataAccessLayer.UnitOfWorks.Concrete
             {
                 if (disposing)
                 {
-                    // Release managed resources
                     _context.Dispose();
                 }
-
-                // If there are no unmanaged resources you don't need to do anything
                 _disposed = true;
             }
         }
@@ -70,7 +63,7 @@ namespace PersonaKey.DataAccessLayer.UnitOfWorks.Concrete
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this); // Don't let the garbage collector call the finalizer
+            GC.SuppressFinalize(this);
         }
     }
 }
