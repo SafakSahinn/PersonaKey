@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PersonaKey.CoreLayer.Configuration;
+using PersonaKey.EntityLayer.Concrete;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,15 +18,16 @@ namespace PersonaKey.CoreLayer.Services
             _jwtOptions = jwtOptions.Value;
         }
 
-        public string GenerateToken(string userName, string role)
+        public string GenerateToken(AppUser user)
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, userName),
-                new Claim(ClaimTypes.Role, role),
-                // Add custom claims for authorization policies
-                new Claim("CanLogin", "True"),
-                // Add CanEditSite claim dynamically if needed later
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Role, user.Role?.Name ?? "User"),
+
+                // Custom claims for policy control (as string: "True"/"False")
+                new Claim("CanLogin", user.Role?.RoleAccess?.CanLogin == true ? "True" : "False"),
+                new Claim("CanEditSite", user.Role?.RoleAccess?.CanEditSite == true ? "True" : "False")
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
