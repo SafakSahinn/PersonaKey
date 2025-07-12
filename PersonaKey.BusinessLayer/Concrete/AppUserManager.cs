@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using PersonaKey.BusinessLayer.Abstract;
 using PersonaKey.DataAccessLayer.UnitOfWorks.Abstract;
@@ -44,21 +42,21 @@ namespace PersonaKey.BusinessLayer.Concrete
             return await _unitOfWork.AppUsers.GetByIdAsync(id);
         }
 
+        // Updated to load Role and RoleAccess for JWT generation
         public async Task<AppUser> GetByUsernameAsync(string username)
         {
-            var users = await _unitOfWork.AppUsers.GetAllAsync();
-            return users.FirstOrDefault(u => u.UserName == username);
+            return await _unitOfWork.AppUsers.GetByUsernameWithRoleAccessAsync(username);
+        }
+
+        public async Task<AppUser?> GetByUsernameWithRoleAccessAsync(string username)
+        {
+            return await _unitOfWork.AppUsers.GetByUsernameWithRoleAccessAsync(username);
         }
 
         public async Task UpdateAsync(AppUser user)
         {
             await _unitOfWork.AppUsers.UpdateAsync(user);
             await _unitOfWork.SaveAsync();
-        }
-
-        public async Task<AppUser?> GetByUsernameWithRoleAccessAsync(string username)
-        {
-            return await _unitOfWork.AppUsers.GetByUsernameWithRoleAccessAsync(username);
         }
     }
 }
