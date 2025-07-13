@@ -1,6 +1,6 @@
-﻿// AuthenticationController.cs
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using PersonaKey.BusinessLayer.Abstract;
 using PersonaKey.CoreLayer.Services;
 using PersonaKey.WebUI.Models;
@@ -18,6 +18,7 @@ namespace PersonaKey.WebUI.Controllers
             _tokenService = tokenService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
         {
@@ -25,43 +26,44 @@ namespace PersonaKey.WebUI.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            // Validate the model state
+            // Check if model state is valid
             if (!ModelState.IsValid)
                 return View(model);
 
-            // Retrieve user by username
+            // Retrieve user from database using username
             var user = await _appUserService.GetByUsernameAsync(model.UserName);
 
-            // Check if user exists and password is correct
+            // Validate user existence and password
             if (user == null || user.Password != model.Password)
             {
                 ModelState.AddModelError(string.Empty, "Invalid username or password.");
                 return View(model);
             }
 
-            // Check if user has login permission (CanLogin claim)
+            // Check if the user's role allows login
             if (user.Role?.RoleAccess?.CanLogin != true)
             {
                 ModelState.AddModelError(string.Empty, "User does not have login permission.");
                 return View(model);
             }
 
-            // Generate JWT token with user claims
+            // Generate JWT token
             var token = _tokenService.GenerateToken(user);
 
-            // Set JWT token as a secure HttpOnly cookie
+            // Set the JWT as a secure, HttpOnly session cookie (deleted when browser is closed)
             Response.Cookies.Append("jwt", token, new CookieOptions
             {
-                HttpOnly = true,       // Prevent JavaScript access to the cookie
-                Secure = true,         // Send cookie only over HTTPS
-                SameSite = SameSiteMode.Strict,  // Strict SameSite policy
-                Expires = DateTime.UtcNow.AddDays(1)  // Cookie expiration
+                HttpOnly = true,                // Prevent access by JavaScript
+                Secure = true,                  // Send only over HTTPS
+                SameSite = SameSiteMode.Strict  // Prevent cross-site usage
+                // No Expires => session cookie (deleted on browser close)
             });
 
-            // Redirect user to Admin Dashboard upon successful login
+            // Redirect to the Admin dashboard upon successful login
             return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
         }
     }

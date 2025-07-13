@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PersonaKey.BusinessLayer.Abstract;
 using PersonaKey.EntityLayer.Concrete;
 
 namespace PersonaKey.WebUI.Controllers
 {
+    [Authorize(Policy = "OnlyLoggedInUsers")]
     public class PersonController : Controller
     {
         private readonly IPersonService _personService;
@@ -47,7 +49,6 @@ namespace PersonaKey.WebUI.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // If validation fails, we resend the dropdown data.
             ViewBag.Departments = await _departmentService.GetAllAsync();
             ViewBag.Roles = await _roleService.GetAllAsync();
             return View(person);
