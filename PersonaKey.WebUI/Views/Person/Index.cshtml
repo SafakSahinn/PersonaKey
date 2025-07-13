@@ -6,13 +6,14 @@
     var roles = ViewBag.Roles as List<PersonaKey.EntityLayer.Concrete.Role>;
 }
 
-
-
 <div class="bg-white rounded-lg shadow p-4 max-w-full overflow-auto">
     <h2>Personel Listesi</h2>
 
     <p>
-        <a asp-action="Create" class="btn btn-primary">Yeni Personel Ekle</a>
+        @if (User.HasClaim("CanEditSite", "True"))
+        {
+            <a asp-action="Create" class="btn btn-primary">Yeni Personel Ekle</a>
+        }
     </p>
     <table class="table table-striped mb-0">
         <thead>
@@ -36,8 +37,15 @@
                     <td>@departmentName</td>
                     <td>@roleName</td>
                     <td>
-                        <a asp-action="Update" asp-route-id="@person.Id" class="btn btn-sm btn-primary">Düzenle</a>
-                        <a href="#" class="btn btn-sm btn-danger">Sil</a>
+                        @if (User.HasClaim("CanEditSite", "True"))
+                        {
+                            <a asp-action="Update" asp-route-id="@person.Id" class="btn btn-sm btn-warning">Düzenle</a>
+                            <a href="#" class="btn btn-sm btn-danger">Sil</a> <!-- Silme işlemini de istersen buraya yetki kontrolü ekleyebilirsin -->
+                        }
+                        else
+                        {
+                            <span class="text-danger"><i class="relative top-0 text-sm leading-normal text-red-500 ni ni-lock-circle-open"></i> Yetkiniz yok</span>
+                        }
                     </td>
                 </tr>
             }

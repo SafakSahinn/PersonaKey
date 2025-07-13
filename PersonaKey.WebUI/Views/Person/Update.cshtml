@@ -5,54 +5,45 @@
     var departments = ViewBag.Departments as List<PersonaKey.EntityLayer.Concrete.Department>;
     var roles = ViewBag.Roles as List<PersonaKey.EntityLayer.Concrete.Role>;
 }
+<div class="bg-white rounded-lg shadow p-4 max-w-full overflow-auto">
+    <h2>@ViewData["Title"]</h2>
 
-<h2>@ViewData["Title"]</h2>
+    <form asp-action="Update" method="post">
+        <input type="hidden" asp-for="Id" />
 
-<form asp-action="Update" method="post">
-    <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            @Html.LabelFor(m => m.FullName, "Ad Soyad")
+            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+        </div>
 
-    <div class="form-group">
-        <label asp-for="FullName"></label>
-        <input asp-for="FullName" class="form-control" />
-        <span asp-validation-for="FullName" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="DepartmentId">Departman</label>
-        <select asp-for="DepartmentId" class="form-control">
-            <option value="">Seçiniz</option>
-            @foreach (var dept in departments)
-            {
-                <option value="@dept.Id" selected="@(dept.Id == Model.DepartmentId)">
-                    @dept.Name
-                </option>
-            }
-        </select>
-        <span asp-validation-for="DepartmentId" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="RoleId">Rol</label>
-        <select asp-for="RoleId" class="form-control">
-            <option value="">Seçiniz</option>
-            @foreach (var role in roles)
-            {
-                <option value="@role.Id" selected="@(role.Id == Model.RoleId)">
-                    @role.Name
-                </option>
-            }
-        </select>
-        <span asp-validation-for="RoleId" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Güncelle</button>
-</form>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, "Email")
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(m => m.DepartmentId, "Departman")
+            @Html.DropDownListFor(m => m.DepartmentId,
+                     new SelectList(departments, "Id", "Name", Model.DepartmentId),
+                     "Seçiniz",
+                     new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.DepartmentId, "", new { @class = "text-danger" })
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(m => m.RoleId, "Rol")
+            @Html.DropDownListFor(m => m.RoleId,
+                     new SelectList(roles, "Id", "Name", Model.RoleId),
+                     "Seçiniz",
+                     new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.RoleId, "", new { @class = "text-danger" })
+        </div>
+        <br />
+        <button type="submit" class="btn btn-warning">Güncelle</button>
+    </form>
+</div>
 
 @section Scripts {
     @{

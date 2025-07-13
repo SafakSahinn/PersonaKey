@@ -5,7 +5,7 @@ using PersonaKey.EntityLayer.Concrete;
 
 namespace PersonaKey.WebUI.Controllers
 {
-    [Authorize(Policy = "OnlyLoggedInUsers")]
+    [Authorize(Policy = "OnlyLoggedInUsers")] // Sadece CanLogin yetkisi olanlar genel olarak girebilir
     public class PersonController : Controller
     {
         private readonly IPersonService _personService;
@@ -19,6 +19,7 @@ namespace PersonaKey.WebUI.Controllers
             _roleService = roleService;
         }
 
+        // Sadece CanLogin olanlar görebilir
         public async Task<IActionResult> Index()
         {
             var persons = await _personService.GetAllAsync();
@@ -31,6 +32,8 @@ namespace PersonaKey.WebUI.Controllers
             return View(persons);
         }
 
+        // Sadece hem CanLogin hem de CanEditSite yetkisi olanlar erişebilir
+        [Authorize(Policy = "OnlyEditors")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -39,6 +42,7 @@ namespace PersonaKey.WebUI.Controllers
             return View();
         }
 
+        [Authorize(Policy = "OnlyEditors")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Person person)
@@ -54,6 +58,7 @@ namespace PersonaKey.WebUI.Controllers
             return View(person);
         }
 
+        [Authorize(Policy = "OnlyEditors")]
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
@@ -68,6 +73,7 @@ namespace PersonaKey.WebUI.Controllers
             return View(person);
         }
 
+        [Authorize(Policy = "OnlyEditors")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(Person person)

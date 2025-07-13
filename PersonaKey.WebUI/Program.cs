@@ -18,11 +18,11 @@ using PersonaKey.WebUI.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Load JWT settings from appsettings.json
+// Load JWT settings from configuration
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
 
-// Configure JWT Bearer Authentication
+// Configure JWT authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -42,23 +42,28 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Define Authorization Policies
+// Define authorization policies
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("OnlyLoggedInUsers", policy =>
     {
         policy.RequireClaim("CanLogin", "True");
     });
+
+    options.AddPolicy("OnlyEditors", policy =>
+    {
+        policy.RequireClaim("CanEditSite", "True");
+    });
 });
 
-// Add MVC Controllers with Views
+// Add MVC with views
 builder.Services.AddControllersWithViews();
 
-// Configure Entity Framework Core with SQL Server
+// Configure EF Core
 builder.Services.AddDbContext<PersonaKeyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PersonaKeyConnection")));
 
-// Register Dependency Injection for Repositories, UnitOfWork, Services
+// Register DI services
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -71,13 +76,11 @@ builder.Services.AddScoped<ICardService, CardManager>();
 builder.Services.AddScoped<IAccessLogService, AccessLogManager>();
 builder.Services.AddScoped<IAppUserService, AppUserManager>();
 
-// JWT Token generation service
 builder.Services.AddScoped<TokenService>();
 
-// Register FluentValidation
+// FluentValidation registration
 builder.Services.AddValidatorsFromAssemblyContaining<LoginViewModelValidator>();
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
-
 builder.Services.AddFluentValidationAutoValidation(options =>
 {
     options.DisableDataAnnotationsValidation = true;
@@ -86,7 +89,7 @@ builder.Services.AddFluentValidationClientsideAdapters();
 
 var app = builder.Build();
 
-// Middleware: Read JWT token from cookie and set it to the Authorization header
+// Middleware to read JWT token from cookie and set it in Authorization header
 app.Use(async (context, next) =>
 {
     var token = context.Request.Cookies["jwt"];
@@ -106,20 +109,14 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 
-// Redirect 401 errors to login BEFORE authentication/authorization
-app.UseStatusCodePages(context =>
-{
-    if (context.HttpContext.Response.StatusCode == 401)
-    {
-        context.HttpContext.Response.Redirect("/Authentication/Login");
-    }
-    return Task.CompletedTask;
-});
+// Redirect 401 Unauthorized responses to login page
+app.UseStatusCodePagesWithRedirects("/Authentication/Login");
 
-app.UseAuthentication(); // Enables authentication
-app.UseAuthorization();  // Enables authorization
+app.UseAuthentication(); // Enable authentication
+app.UseAuthorization();  // Enable authorization
 
 // Default route mapping
 app.MapControllerRoute(
