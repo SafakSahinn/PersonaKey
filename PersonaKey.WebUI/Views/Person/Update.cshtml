@@ -41,7 +41,8 @@
             @Html.ValidationMessageFor(m => m.RoleId, "", new { @class = "text-danger" })
         </div>
         <br />
-        <button type="submit" class="btn btn-warning">Güncelle</button>
+        <button type="submit" class="btn btn-warning">Kaydet</button>
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
     </form>
 </div>
 
