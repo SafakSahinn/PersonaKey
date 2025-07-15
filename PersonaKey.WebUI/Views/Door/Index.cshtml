@@ -4,30 +4,34 @@
     ViewData["Title"] = "Kapılar";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="bg-white rounded-lg shadow p-4 max-w-full overflow-auto">
 
-<p>
-    <a asp-action="Create" class="btn btn-primary mb-3">Yeni Kapı Ekle</a>
-</p>
+    <h2>@ViewData["Title"]</h2>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Ad</th>
-            <th>MAC Adresi</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <p>
+        <a asp-action="Create" class="btn btn-primary mb-3">Yeni Kapı Ekle</a>
+    </p>
+
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
-                <td>@item.Name</td>
-                <td>@item.MacAddress</td>
-                <td>
-                    <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Düzenle</a>
-                </td>
+                <th>Ad</th>
+                <th>MAC Adresi</th>
+                <th>İşlemler</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.MacAddress</td>
+                    <td>
+                        <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Düzenle</a>
+                        <a href="#" class="btn btn-sm btn-danger">Sil</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
