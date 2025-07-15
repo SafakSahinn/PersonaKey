@@ -6,43 +6,46 @@
     var doors = ViewBag.Doors as SelectList;
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="bg-white rounded-lg shadow p-4 max-w-full overflow-auto">
 
-<form asp-action="Update" method="post">
-    <input type="hidden" asp-for="Id" />
+    <h2>@ViewData["Title"]</h2>
 
-    <div class="form-group">
-        <label asp-for="CardId">Kart</label>
-        <select asp-for="CardId" asp-items="cards" class="form-control"></select>
-        <span asp-validation-for="CardId" class="text-danger"></span>
-    </div>
+    <form asp-action="Update" method="post">
+        <input type="hidden" asp-for="Id" />
 
-    <div class="form-group">
-        <label asp-for="DoorId">Kapı</label>
-        <select asp-for="DoorId" asp-items="doors" class="form-control"></select>
-        <span asp-validation-for="DoorId" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="CardId">Kart</label>
+            <select asp-for="CardId" asp-items="cards" class="form-control"></select>
+            <span asp-validation-for="CardId" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="AccessTime">Giriş Saati</label>
-        <input asp-for="AccessTime" class="form-control" type="datetime-local" />
-        <span asp-validation-for="AccessTime" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="DoorId">Kapı</label>
+            <select asp-for="DoorId" asp-items="doors" class="form-control"></select>
+            <span asp-validation-for="DoorId" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="ExitTime">Çıkış Saati</label>
-        <input asp-for="ExitTime" class="form-control" type="datetime-local" />
-        <span asp-validation-for="ExitTime" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="AccessTime">Giriş Saati</label>
+            <input asp-for="AccessTime" class="form-control" type="datetime-local" />
+            <span asp-validation-for="AccessTime" class="text-danger"></span>
+        </div>
 
-    <div class="form-check">
-        <input asp-for="IsSuccess" class="form-check-input" />
-        <label asp-for="IsSuccess" class="form-check-label">Başarılı mı?</label>
-    </div>
+        <div class="form-group">
+            <label asp-for="ExitTime">Çıkış Saati</label>
+            <input asp-for="ExitTime" class="form-control" type="datetime-local" />
+            <span asp-validation-for="ExitTime" class="text-danger"></span>
+        </div>
 
-    <button type="submit" class="btn btn-success mt-3">Kaydet</button>
-</form>
-
+        <div class="form-check">
+            <input asp-for="IsSuccess" class="form-check-input" />
+            <label asp-for="IsSuccess" class="form-check-label">Başarılı mı?</label>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-warning">Kaydet</button>
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
+    </form>
+</div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

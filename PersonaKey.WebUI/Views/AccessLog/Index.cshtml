@@ -6,38 +6,42 @@
     var doors = ViewBag.Doors as List<PersonaKey.EntityLayer.Concrete.Door>;
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="bg-white rounded-lg shadow p-4 max-w-full overflow-auto">
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Yeni Giriş Kaydı</a>
-</p>
+    <h2>@ViewData["Title"]</h2>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Kart</th>
-            <th>Kapı</th>
-            <th>Giriş Saati</th>
-            <th>Çıkış Saati</th>
-            <th>Durum</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var log in Model)
-        {
-            var cardNumber = cards?.FirstOrDefault(c => c.Id == log.CardId)?.CardNumber ?? "Bilinmiyor";
-            var doorName = doors?.FirstOrDefault(d => d.Id == log.DoorId)?.Name ?? "Bilinmiyor";
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Yeni Giriş Kaydı</a>
+    </p>
+
+    <table class="table table-bordered">
+        <thead>
             <tr>
-                <td>@cardNumber</td>
-                <td>@doorName</td>
-                <td>@(log.AccessTime?.ToString("g") ?? "-")</td>
-                <td>@(log.ExitTime?.ToString("g") ?? "-")</td>
-                <td>@(log.IsSuccess ? "Başarılı" : "Başarısız")</td>
-                <td>
-                    <a asp-action="Update" asp-route-id="@log.Id" class="btn btn-sm btn-warning">Düzenle</a>
-                </td>
+                <th>Kart</th>
+                <th>Kapı</th>
+                <th>Giriş Saati</th>
+                <th>Çıkış Saati</th>
+                <th>Durum</th>
+                <th>İşlemler</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var log in Model)
+            {
+                var cardNumber = cards?.FirstOrDefault(c => c.Id == log.CardId)?.CardNumber ?? "Bilinmiyor";
+                var doorName = doors?.FirstOrDefault(d => d.Id == log.DoorId)?.Name ?? "Bilinmiyor";
+                <tr>
+                    <td>@cardNumber</td>
+                    <td>@doorName</td>
+                    <td>@(log.AccessTime?.ToString("g") ?? "-")</td>
+                    <td>@(log.ExitTime?.ToString("g") ?? "-")</td>
+                    <td>@(log.IsSuccess ? "Başarılı" : "Başarısız")</td>
+                    <td>
+                        <a asp-action="Update" asp-route-id="@log.Id" class="btn btn-sm btn-warning">Düzenle</a>
+                        <a href="#" class="btn btn-sm btn-danger">Sil</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -4,6 +4,8 @@
     ViewData["Title"] = "Yeni Giriş Kaydı";
 }
 
+<div class="bg-white rounded-lg shadow p-4 max-w-full overflow-auto">
+
 <h2>@ViewData["Title"]</h2>
 
 <form asp-action="Create" method="post">
@@ -35,10 +37,10 @@
         <input asp-for="IsSuccess" class="form-check-input" />
         <label asp-for="IsSuccess" class="form-check-label">Giriş Başarılı mı?</label>
     </div>
-
-    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <br />
+    <button type="submit" class="btn btn-success">Kaydet</button>
 </form>
-
+</div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
