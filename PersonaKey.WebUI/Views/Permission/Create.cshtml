@@ -4,29 +4,31 @@
     ViewData["Title"] = "Yeni İzin Ekle";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="bg-white rounded-lg shadow p-4 max-w-full overflow-auto">
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="RoleId" class="control-label">Rol</label>
-        <select asp-for="RoleId" asp-items="ViewBag.Roles" class="form-control">
-            <option value="">-- Rol Seçiniz --</option>
-        </select>
-        <span asp-validation-for="RoleId" class="text-danger"></span>
-    </div>
+    <h2>@ViewData["Title"]</h2>
 
-    <div class="form-group">
-        <label asp-for="DoorId" class="control-label">Kapı</label>
-        <select asp-for="DoorId" asp-items="ViewBag.Doors" class="form-control">
-            <option value="">-- Kapı Seçiniz --</option>
-        </select>
-        <span asp-validation-for="DoorId" class="text-danger"></span>
-    </div>
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="RoleId" class="control-label">Rol Adı</label>
+            <select asp-for="RoleId" asp-items="ViewBag.Roles" class="form-control">
+                <option value="">-- Rol Seçiniz --</option>
+            </select>
+            <span asp-validation-for="RoleId" class="text-danger"></span>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Kaydet</button>
-    <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
-</form>
-
+        <div class="form-group">
+            <label asp-for="DoorId" class="control-label">Kapı Adı</label>
+            <select asp-for="DoorId" asp-items="ViewBag.Doors" class="form-control">
+                <option value="">-- Kapı Seçiniz --</option>
+            </select>
+            <span asp-validation-for="DoorId" class="text-danger"></span>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-success">Kaydet</button>
+        <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+    </form>
+</div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

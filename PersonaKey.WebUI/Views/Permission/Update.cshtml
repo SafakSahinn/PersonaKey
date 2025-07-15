@@ -4,6 +4,8 @@
     ViewData["Title"] = "İzin Güncelle";
 }
 
+<div class="bg-white rounded-lg shadow p-4 max-w-full overflow-auto">
+
 <h2>@ViewData["Title"]</h2>
 
 <form asp-action="Update" method="post">
@@ -24,11 +26,11 @@
         </select>
         <span asp-validation-for="DoorId" class="text-danger"></span>
     </div>
-
-    <button type="submit" class="btn btn-primary">Güncelle</button>
+    <br />
+    <button type="submit" class="btn btn-warning">Kaydet</button>
     <a asp-action="Index" class="btn btn-secondary">İptal</a>
 </form>
-
+</div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
