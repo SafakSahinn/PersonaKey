@@ -5,36 +5,40 @@
     var persons = ViewBag.Persons as List<PersonaKey.EntityLayer.Concrete.Person>;
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="bg-white rounded-lg shadow p-4 max-w-full overflow-auto">
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Yeni Kart Ekle</a>
-</p>
+    <h2>@ViewData["Title"]</h2>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Kart Numarası</th>
-            <th>Kişi</th>
-            <th>Durum</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var card in Model)
-        {
-            var personName = persons?.FirstOrDefault(p => p.Id == card.PersonId)?.FullName ?? "Bilinmiyor";
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Yeni Kart Ekle</a>
+    </p>
 
+    <table class="table table-bordered">
+        <thead>
             <tr>
-                <td>@card.Id</td>
-                <td>@card.CardNumber</td>
-                <td>@personName</td>
-                <td>@(card.IsActive ? "Aktif" : "Pasif")</td>
-                <td>
-                    <a asp-action="Update" asp-route-id="@card.Id" class="btn btn-sm btn-primary">Düzenle</a>
-                </td>
+                <th>ID</th>
+                <th>Kart Numarası</th>
+                <th>Kişi</th>
+                <th>Durum</th>
+                <th>İşlemler</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var card in Model)
+            {
+                var personName = persons?.FirstOrDefault(p => p.Id == card.PersonId)?.FullName ?? "Bilinmiyor";
+
+                <tr>
+                    <td>@card.Id</td>
+                    <td>@card.CardNumber</td>
+                    <td>@personName</td>
+                    <td>@(card.IsActive ? "Aktif" : "Pasif")</td>
+                    <td>
+                        <a asp-action="Update" asp-route-id="@card.Id" class="btn btn-sm btn-warning">Düzenle</a>
+                        <a href="#" class="btn btn-sm btn-danger">Sil</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
