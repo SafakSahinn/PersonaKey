@@ -13,10 +13,9 @@
         <a asp-action="Create" class="btn btn-primary">Yeni Kart Ekle</a>
     </p>
 
-    <table class="table table-bordered">
+    <table class="table table-striped mb-0">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Kart Numarası</th>
                 <th>Kişi</th>
                 <th>Durum</th>
@@ -29,7 +28,6 @@
                 var personName = persons?.FirstOrDefault(p => p.Id == card.PersonId)?.FullName ?? "Bilinmiyor";
 
                 <tr>
-                    <td>@card.Id</td>
                     <td>@card.CardNumber</td>
                     <td>@personName</td>
                     <td>@(card.IsActive ? "Aktif" : "Pasif")</td>
